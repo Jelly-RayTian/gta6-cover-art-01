@@ -12,6 +12,13 @@ export function overflow(p, r) {
   return { dw: iw * s, dh: ih * s, ovx: Math.max(0, iw * s - r.w), ovy: Math.max(0, ih * s - r.h) };
 }
 
+// Convert a drag delta in panel-local pixels into offset changes. The photo is mirrored when flipped,
+// so horizontal drags must be inverted for the image to follow the pointer.
+export function panDelta(p, r, lx, ly) {
+  const { ovx, ovy } = overflow(p, r);
+  return { dox: ovx > 0 ? (p.flip ? -2 : 2) * lx / ovx : 0, doy: ovy > 0 ? 2 * ly / ovy : 0 };
+}
+
 function drawPhoto(ctx, p, r, i) {
   if (!p.img) {
     ctx.fillStyle = '#2a1048'; ctx.fillRect(-r.w / 2, -r.h / 2, r.w, r.h);
@@ -19,6 +26,7 @@ function drawPhoto(ctx, p, r, i) {
     ctx.fillText('+', 0, 0); return;
   }
   const { dw, dh, ovx, ovy } = overflow(p, r);
+  if (p.flip) ctx.scale(-1, 1); // mirror around the panel centre
   ctx.drawImage(p.img, p.ox * ovx / 2 - dw / 2, p.oy * ovy / 2 - dh / 2, dw, dh);
 }
 
@@ -72,8 +80,13 @@ function setLetterFill(ctx, style, x, top, bottom, size) {
   }
 }
 
-function drawLetters(ctx, text, x, y, style, size, top) {
+function drawLetters(ctx, text, x, y, style, size, top, outline = 0) {
+  // outline = stroke width as a fraction of the font size (0 = off)
   setLetterFill(ctx, style, x, top, y, size);
+  if (outline > 0) { // dark stroke under the fill so letters stay crisp on busy photos
+    ctx.save(); ctx.shadowColor = 'transparent'; ctx.lineJoin = 'round'; ctx.lineWidth = size * outline; ctx.strokeStyle = '#12041f';
+    ctx.strokeText(text, x, y); ctx.restore();
+  }
   ctx.fillText(text, x, y);
   if (style === 'neon') { ctx.fillText(text, x, y); ctx.shadowBlur = 0; ctx.fillStyle = '#ffd6f6'; ctx.globalAlpha = 0.55; ctx.fillText(text, x, y); ctx.globalAlpha = 1; }
   ctx.shadowColor = 'transparent';
@@ -88,9 +101,10 @@ export function drawCaption(ctx, state, W, H) {
   ctx.save();
   ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
   let fs = base * 0.2;
-  ctx.font = `${fs}px ${fam}`; ctx.letterSpacing = `${fs * 0.02}px`;
+  const track = (state.tracking ?? 2) / 100;
+  ctx.font = `${fs}px ${fam}`; ctx.letterSpacing = `${fs * track}px`;
   const maxW = W * 0.88, tw = title ? ctx.measureText(title).width : 0;
-  if (tw > maxW) { fs *= maxW / tw; ctx.font = `${fs}px ${fam}`; ctx.letterSpacing = `${fs * 0.02}px`; }
+  if (tw > maxW) { fs *= maxW / tw; ctx.font = `${fs}px ${fam}`; ctx.letterSpacing = `${fs * track}px`; }
   const sfs = Math.min(base * 0.058, fs * 0.34);
   const blockH = (title ? fs * 0.86 : 0) + (sub ? sfs * 1.9 : 0), m = base * 0.075;
   let top = state.pos === 'top' ? m : state.pos === 'center' ? (H - blockH) / 2 : H - m - blockH;
@@ -104,14 +118,14 @@ export function drawCaption(ctx, state, W, H) {
   let y = top;
   if (title) {
     y += fs * 0.86 - fs * 0.04;
-    ctx.font = `${fs}px ${fam}`; ctx.letterSpacing = `${fs * 0.02}px`;
-    drawLetters(ctx, title, W / 2, y, state.color, fs, y - fs * 0.8);
+    ctx.font = `${fs}px ${fam}`; ctx.letterSpacing = `${fs * track}px`;
+    drawLetters(ctx, title, W / 2, y, state.color, fs, y - fs * 0.8, state.outline ? 0.07 : 0);
     y += fs * 0.04;
   }
   if (sub) {
     y += sfs * 1.5;
     ctx.font = `${sfs}px ${fam}`; ctx.letterSpacing = `${sfs * 0.28}px`;
-    drawLetters(ctx, sub, W / 2, y, state.color === 'sunset' ? 'white' : state.color, sfs, y - sfs);
+    drawLetters(ctx, sub, W / 2, y, state.color === 'sunset' ? 'white' : state.color, sfs, y - sfs, state.outline ? 0.12 : 0);
   }
   ctx.restore();
 }

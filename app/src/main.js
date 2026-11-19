@@ -2,7 +2,7 @@
 import { state, SIZES, CROPS, onChange, emit, loadImage, loadImageFile, setPhoto, setAllPhotos, resetCrop } from './state.js';
 import { LAYOUTS, panelRects, hitPanel } from './layouts.js';
 import { GRADES } from './grades.js';
-import { renderCover, overflow } from './render.js';
+import { renderCover, panDelta } from './render.js';
 import { exportPng } from './export.js';
 import { runShot } from './shots.js';
 
@@ -64,7 +64,8 @@ function syncControls() {
   mark($('layouts'), 'layout'); mark($('grades'), 'grade'); mark($('colors'), 'color'); mark($('sizes'), 'size');
   $('panelNo').textContent = `${state.sel + 1} of ${rects.length}`;
   const p = state.panels[state.sel];
-  if (p) $('zoom').value = p.zoom;
+  $('tracking').value = state.tracking; $('outline').checked = state.outline;
+  if (p) { $('zoom').value = p.zoom; $('flip').classList.toggle('on', p.flip); $('flip').setAttribute('aria-pressed', String(p.flip)); }
   for (const [id, key] of [['title', 'title'], ['sub', 'sub'], ['pos', 'pos']]) if ($(id).value !== state[key] && document.activeElement !== $(id)) $(id).value = state[key];
 }
 
@@ -85,9 +86,9 @@ function wirePanelGestures() {
     const [x, y] = canvasPoint(e), r = rects[drag.i], p = state.panels[drag.i];
     if (p.img) {
       const dx = x - drag.x, dy = y - drag.y, c = Math.cos(-r.rot), s = Math.sin(-r.rot);
-      const lx = dx * c - dy * s, ly = dx * s + dy * c, { ovx, ovy } = overflow(p, r);
-      if (ovx > 0) p.ox = Math.max(-1, Math.min(1, p.ox + 2 * lx / ovx));
-      if (ovy > 0) p.oy = Math.max(-1, Math.min(1, p.oy + 2 * ly / ovy));
+      const lx = dx * c - dy * s, ly = dx * s + dy * c, { dox, doy } = panDelta(p, r, lx, ly);
+      p.ox = Math.max(-1, Math.min(1, p.ox + dox));
+      p.oy = Math.max(-1, Math.min(1, p.oy + doy));
     }
     drag.x = x; drag.y = y; schedule();
   });
@@ -113,7 +114,10 @@ function wireControls() {
   $('sub').oninput = (e) => { state.sub = e.target.value; schedule(); };
   $('pos').onchange = (e) => { state.pos = e.target.value; schedule(); };
   $('zoom').oninput = (e) => { state.panels[state.sel].zoom = Number(e.target.value); schedule(); };
-  $('resetCrop').onclick = () => { resetCrop(state.sel); emit(); };
+  $('tracking').oninput = (e) => { state.tracking = Number(e.target.value); schedule(); };
+  $('outline').onchange = (e) => { state.outline = e.target.checked; schedule(); };
+  $('flip').onclick = () => { const p = state.panels[state.sel]; p.flip = !p.flip; emit(); };
+  $('resetCrop').onclick =() => { resetCrop(state.sel); emit(); };
   $('sampleBoulevard').onclick = () => { setPhoto(state.sel, samples.boulevard); emit(); };
   $('samplePier').onclick = () => { setPhoto(state.sel, samples.pier); emit(); };
   $('useAll').onclick = () => {

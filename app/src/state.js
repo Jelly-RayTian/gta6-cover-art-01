@@ -8,7 +8,8 @@ export const state = {
   layout: 'grid4', grade: 'vice', size: 'sq',
   title: 'Neon Coast', sub: 'Summer in the city', color: 'sunset', pos: 'bottom',
   sel: 0,
-  panels: Array.from({ length: SLOTS }, () => ({ img: null, zoom: 1, ox: 0, oy: 0 })),
+  panels: Array.from({ length: SLOTS }, () => ({ img: null, zoom: 1, ox: 0, oy: 0, flip: false })),
+  tracking: 2, outline: false, // title letter-spacing (percent of font size) and outline toggle
 };
 
 const listeners = new Set();
