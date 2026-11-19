@@ -1,0 +1,42 @@
+@font-face { font-family: "Anton"; src: url("fonts/anton-latin-400-normal.woff2") format("woff2"); font-display: block; }
+:root { --pink:#ff3d8b; --orange:#ff9a3c; --teal:#2fe6f0; --ink:#12041f; --panel:#1d0a33; --line:#4a2470; --text:#fbeaff; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: radial-gradient(120% 90% at 50% 100%, #5a1858 0%, #2a0c4a 45%, #12041f 100%); color: var(--text); font: 14px/1.3 system-ui, "Segoe UI", sans-serif; }
+body { display: flex; flex-direction: column; overflow: hidden; }
+.top { display: flex; align-items: center; justify-content: space-between; padding: 8px 18px; border-bottom: 1px solid var(--line); background: rgba(18,4,31,.7); }
+.brand { display: flex; align-items: center; gap: 10px; font-family: Anton, Impact, sans-serif; font-size: 22px; letter-spacing: .08em; }
+.brand i { font: italic 600 13px system-ui; letter-spacing: .2em; text-transform: uppercase; color: var(--teal); }
+.sun { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(#ffe36a, #ff3d8b); box-shadow: 0 0 14px var(--pink); }
+.export { font: 700 16px Anton, Impact, sans-serif; letter-spacing: .1em; text-transform: uppercase; padding: 10px 26px; border: 0; border-radius: 999px; color: #fff; cursor: pointer; background: linear-gradient(90deg, var(--orange), var(--pink)); box-shadow: 0 0 18px rgba(255,61,139,.6); }
+.export:hover { filter: brightness(1.12); }
+.app { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 360px; }
+.stage { min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px; gap: 6px; }
+.stage-wrap { flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; }
+#cover { max-width: 100%; max-height: 100%; box-shadow: 0 10px 40px rgba(0,0,0,.6); touch-action: none; cursor: grab; background: #f3ecdf; }
+#cover.dragging { cursor: grabbing; }
+.hint { margin: 0; font-size: 12px; opacity: .65; }
+.side { overflow-y: auto; padding: 10px 14px; border-left: 1px solid var(--line); background: rgba(29,10,51,.75); }
+.side section { margin-bottom: 10px; }
+h3 { margin: 0 0 5px; font: 400 13px Anton, Impact, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--orange); }
+.layouts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.layouts button { background: #2a1048; border: 2px solid transparent; border-radius: 8px; padding: 4px 2px 3px; color: var(--text); font-size: 10px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.layouts canvas { width: 44px; height: 44px; border-radius: 4px; }
+.grades { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.grades button { background: none; border: 2px solid transparent; border-radius: 8px; padding: 3px; color: var(--text); font-size: 10px; cursor: pointer; }
+.grades .sw { display: block; height: 28px; border-radius: 5px; margin-bottom: 2px; }
+button.on { border-color: var(--teal) !important; box-shadow: 0 0 10px rgba(47,230,240,.6); }
+input[type=text], select { width: 100%; margin-bottom: 5px; padding: 7px 9px; border-radius: 8px; border: 1px solid var(--line); background: #12041f; color: var(--text); font: 600 14px system-ui; }
+.row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 5px; }
+.row select { width: auto; margin: 0 0 0 auto; }
+.colors { display: flex; gap: 6px; }
+.colors button { width: 30px; height: 30px; border-radius: 50%; border: 2px solid #fff3; cursor: pointer; }
+.seg { display: flex; gap: 6px; }
+.seg button { flex: 1; padding: 6px 2px; border-radius: 8px; border: 2px solid var(--line); background: #2a1048; color: var(--text); cursor: pointer; font-size: 12px; }
+.btn { padding: 7px 12px; border-radius: 8px; border: 0; background: linear-gradient(90deg, #7a2cff, var(--pink)); color: #fff; font: 600 13px system-ui; cursor: pointer; }
+.btn.ghost { background: #2a1048; border: 1px solid var(--line); }
+.zoom { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.zoom input { flex: 1; accent-color: var(--pink); }
+body.shot-cover .top, body.shot-cover .side, body.shot-cover .hint { display: none; }
+body.shot-cover .app { grid-template-columns: 1fr; }
+body.shot-cover .stage { padding: 0; }
+body.shot-cover #cover { box-shadow: none; cursor: default; }
