@@ -25,6 +25,8 @@
       <input id="sub" type="text" maxlength="40" placeholder="Subtitle" value="Summer in the city">
       <div class="row"><div id="colors" class="colors"></div>
         <select id="pos" aria-label="Caption position"><option value="bottom">Bottom</option><option value="center">Middle</option><option value="top">Top</option></select></div>
+      <div class="row"><label class="zoom">Spacing <input id="tracking" type="range" min="-2" max="20" step="0.5" value="2"></label>
+        <label class="check"><input id="outline" type="checkbox"> Outline</label></div>
     </section>
     <section><h3>Size</h3><div id="sizes" class="seg"></div></section>
     <section class="panel-box">
@@ -36,7 +38,8 @@
         <button id="samplePier" class="btn ghost" type="button">Pier</button>
       </div>
       <label class="zoom">Zoom <input id="zoom" type="range" min="1" max="4" step="0.01" value="1"></label>
-      <div class="row"><button id="resetCrop" class="btn ghost" type="button">Reset crop</button>
+      <div class="row"><button id="flip" class="btn ghost" type="button" aria-pressed="false">Flip &#8596;</button>
+        <button id="resetCrop" class="btn ghost" type="button">Reset crop</button>
         <button id="useAll" class="btn" type="button">Use in all panels</button></div>
     </section>
   </aside>

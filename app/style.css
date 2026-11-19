@@ -40,3 +40,6 @@ body.shot-cover .top, body.shot-cover .side, body.shot-cover .hint { display: no
 body.shot-cover .app { grid-template-columns: 1fr; }
 body.shot-cover .stage { padding: 0; }
 body.shot-cover #cover { box-shadow: none; cursor: default; }
+.btn.on { background: linear-gradient(90deg, #7a2cff, var(--pink)); border-color: transparent; }
+.check { display: flex; align-items: center; gap: 6px; font: 600 13px system-ui; white-space: nowrap; }
+.check input { accent-color: var(--pink); }
