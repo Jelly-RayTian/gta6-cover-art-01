@@ -9,8 +9,9 @@ An original, offline, static web app that turns your own photos and a caption in
 
 - **5 layouts:** Classic 4 (2x2), Hero + 3, 9 Grid, Full Bleed, tilted Snapshots.
 - **Any photo:** pick a panel, upload a photo (or drop one on it), drag to reposition, scroll or use the slider to zoom; "Use in all panels" fills every panel from one photo. Two sample photos are bundled.
+- **Per-panel flip:** a Flip button mirrors the selected panel's photo horizontally (preview and export); dragging stays natural on flipped panels.
 - **5 colour grades:** Vice Sunset, Neon Nights, Golden Hour, Noir, Clean (canvas filters and blend-mode gradient overlays, identical in preview and export).
-- **Caption lettering:** editable title and subtitle in Anton, white / sunset gradient / neon pink, top/middle/bottom.
+- **Caption lettering:** editable title and subtitle in Anton, white / sunset gradient / neon pink, top/middle/bottom. Title styling: a letter-spacing slider and a dark outline toggle for the title and subtitle.
 - **Export:** 1080x1080, 1080x1350 or 1920x1080 PNG, drawn on a canvas at full size.
 
 ## Run

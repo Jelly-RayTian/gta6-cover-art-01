@@ -1,6 +1,28 @@
 [
-  { "name": "1-cover.jpg", "export": true, "query": "?shot=cover&photo=pier&layout=grid4&grade=vice&caption=Sunset%20Heist&sub=Vice%20Coast%202026", "w": 1080, "h": 1080 },
-  { "name": "2-editor.jpg", "query": "?shot=editor&photo=mix&layout=hero&grade=neon&caption=Neon%20Nights&sub=Ocean%20Drive", "w": 1280, "h": 720 },
-  { "name": "3-cover.jpg", "export": true, "query": "?shot=cover&photo=boulevard&layout=snaps&grade=golden&color=neon&caption=Boulevard%20Queen&sub=Golden%20Hour%20Club", "w": 1080, "h": 1080 },
-  { "name": "4-editor.jpg", "query": "?shot=editor&photo=mix&layout=grid9&grade=noir&color=white&caption=After%20Dark&sub=Midnight%20Run", "w": 1280, "h": 720 }
+  {
+    "name": "1-cover.jpg",
+    "export": true,
+    "query": "?shot=cover&photo=pier&layout=grid4&grade=vice&caption=Sunset%20Heist&sub=Vice%20Coast%202026&flip=2,3&tracking=6&outline=1",
+    "w": 1080,
+    "h": 1080
+  },
+  {
+    "name": "2-editor.jpg",
+    "query": "?shot=editor&photo=mix&layout=hero&grade=neon&caption=Neon%20Nights&sub=Ocean%20Drive&flip=1&tracking=8&outline=1",
+    "w": 1280,
+    "h": 720
+  },
+  {
+    "name": "3-cover.jpg",
+    "export": true,
+    "query": "?shot=cover&photo=boulevard&layout=snaps&grade=golden&color=neon&caption=Boulevard%20Queen&sub=Golden%20Hour%20Club&flip=1,3,5&tracking=4",
+    "w": 1080,
+    "h": 1080
+  },
+  {
+    "name": "4-editor.jpg",
+    "query": "?shot=editor&photo=mix&layout=grid9&grade=noir&color=white&caption=After%20Dark&sub=Midnight%20Run&flip=2&tracking=12&outline=1",
+    "w": 1280,
+    "h": 720
+  }
 ]
